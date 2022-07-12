@@ -1,5 +1,5 @@
 from common import *
-from itertools import izip
+
 def tajD(N,S,k):
     '''N is the number of indv
        S is the number of seg. sites
@@ -39,8 +39,8 @@ def calc_S_and_k_from_seqs(list_of_seqs):
             return q 
     #now loop through sites and tally S and k
     S, p = 0.0, 0.0
-    for n in izip(*list_of_seqs):
-        config = count_all(n).values()
+    for n in zip(*list_of_seqs):
+        config = list(count_all(n).values())
         diffs = pairwise_diffs2(config)
         if diffs:  ## all the non-seg sites return zero, which is False
             p += diffs  
@@ -49,22 +49,22 @@ def calc_S_and_k_from_seqs(list_of_seqs):
     return S, k
 
 def seq_boot(seqs):
-    n = zip(*seqs)
-    idxs = range(len(n))
+    n = list(zip(*seqs))
+    idxs = list(range(len(n)))
     while 1:
         k = defaultdict(list)
         idx_list = sampler(idxs, len(n), replacement=True)
         for idx in idx_list:
             for pos, val in enumerate(n[idx]):
                 k[pos].append(val)
-        yield map(lambda s: ''.join(s), k.values())
+        yield [''.join(s) for s in list(k.values())]
 
 def permute(seqs, reps = 1000):
     n = []
     repnum=0
     boot = seq_boot(seqs)
     while repnum < reps:
-        rep = boot.next()
+        rep = next(boot)
         N = len(rep)
         S, k = calc_S_and_k_from_seqs(rep)
         try:
@@ -91,16 +91,16 @@ if __name__ == '__main__':
     #        '01101001010101'*100]
     N = len(seqs)
     S, k = calc_S_and_k_from_seqs(seqs)
-    print N, S, k
+    print(N, S, k)
     real = tajD(N,S,k)
     mean_perm, lower_ci, upper_ci, perms = permute(seqs)
-    print "real Tajima's D", real
-    print 'mean of bootstraps', mean_perm
-    print 'lower 0.025 CI', lower_ci
-    print 'upper 0.975 CI', upper_ci
-    print 'num. replicates', perms 
-    if lower_ci <= 0 <= upper_ci: print 'not sig. different from zero'
-    else: print 'sig. different from zero'
+    print("real Tajima's D", real)
+    print('mean of bootstraps', mean_perm)
+    print('lower 0.025 CI', lower_ci)
+    print('upper 0.975 CI', upper_ci)
+    print('num. replicates', perms) 
+    if lower_ci <= 0 <= upper_ci: print('not sig. different from zero')
+    else: print('sig. different from zero')
     #from matplotlib import pyplot as plt
     #plt.hist(n)
     #plt.show()

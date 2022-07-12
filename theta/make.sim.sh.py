@@ -8,5 +8,5 @@ v = np.random.uniform(10, 50, 5000)
 json.dump([i for i in v], open('true.thetas.json', 'w'))
 
 for i in v:
-    print "./ms 40 1 -t " + str(i) + " >> theta.sims.txt"
+    print("./ms 40 1 -t " + str(i) + " >> theta.sims.txt")
 #print v[:10]

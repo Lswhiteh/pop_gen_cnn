@@ -36,7 +36,7 @@ model.add(Dense(num_classes, activation='sigmoid'))
 model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.Adam(),
               metrics=['accuracy'])
-print(model.summary())
+print((model.summary()))
 model.fit(xtrain, ytrain, batch_size=batch_size,
           epochs=epochs,
           verbose=1,

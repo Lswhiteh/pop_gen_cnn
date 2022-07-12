@@ -23,7 +23,7 @@ def transpose_shape(x):
 #below is a crude SNP diversity simulation scheme. it's totally made up and not based on any real pop gen model
 #however, for our purposes here (playing with CNN architectures on SNP matrices), it's good enough.
 x = []
-for i in xrange(5000):
+for i in range(5000):
     q = []
     v = np.random.randint(2, size=40)*-2+1 
     for j in range(20):
@@ -32,7 +32,7 @@ for i in xrange(5000):
     x.append(sort_min_diff(np.array(q)))
     
 x = np.array(x)
-print x.shape
+print(x.shape)
 
 y = []
 for i in x:

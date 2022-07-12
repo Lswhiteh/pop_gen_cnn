@@ -14,7 +14,7 @@ ytest = keras.utils.to_categorical(ytest, num_classes)
 postest = sequence.pad_sequences(postest, padding='post', value=-1., dtype='float32',  maxlen=5000)
 xtest = sequence.pad_sequences(xtest, padding='post',  maxlen=5000)
 
-xtrains, ytrains, postrains = [i for i in u.keys() if "xtrain" in i],[i for i in u.keys() if "ytrain" in i], [i for i in u.keys() if "postrain" in i] 
+xtrains, ytrains, postrains = [i for i in list(u.keys()) if "xtrain" in i],[i for i in list(u.keys()) if "ytrain" in i], [i for i in list(u.keys()) if "postrain" in i] 
 xtrains.sort(), ytrains.sort(), postrains.sort()
 
 training_data = list(zip(*[xtrains, ytrains, postrains]))
@@ -58,11 +58,11 @@ model.add(Dense(num_classes, activation='softmax'))
 model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=keras.optimizers.Adam(),
                   metrics=['accuracy'])
-print(model.summary())
+print((model.summary()))
 
 for e in range(epochs):
     for xtrainx, ytrainx, postrainx in training_data:
-        print (e, xtrainx, ytrainx, postrainx)
+        print((e, xtrainx, ytrainx, postrainx))
         xtrain, ytrain,postrain = u[xtrainx], u[ytrainx], u[postrainx]
         ytrain = keras.utils.to_categorical(ytrain, num_classes)
         postrain = sequence.pad_sequences(postrain, padding='post', value=-1., dtype='float32',  maxlen=5000)
@@ -96,7 +96,7 @@ pred = model.predict([xfinal, posfinal])
 
 pred = [np.argmax(i) for i in pred]
 from sklearn import metrics
-print(metrics.confusion_matrix(yfinal, pred))
+print((metrics.confusion_matrix(yfinal, pred)))
 
 j = model.to_json()
 print(j)  #need to save this weith weights file to run on validation

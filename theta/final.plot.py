@@ -340,7 +340,7 @@ for i,color in zip(['sort_and_transpose', 'not_transposed', 'transpose'], ['mage
     #for j in all_out[i]:
         #plt.plot(range(11), j, color=color, alpha=.05)
         #plt.scatter(range(11), j, color=color, alpha=.3)
-    plt.plot(range(11), rmean(all_out[i]), color=color)
+    plt.plot(list(range(11)), rmean(all_out[i]), color=color)
 plt.xlabel('training epoch')
 plt.ylabel('hold-out data RMSE')
 plt.show()

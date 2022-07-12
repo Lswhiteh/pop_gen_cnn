@@ -25,7 +25,7 @@ def transpose_shape(x):
     return np.array(n)
 
 x = []
-for i in xrange(5000):
+for i in range(5000):
     #print i
     q = []
     v = np.random.randint(2, size=60)#*-2+1 
@@ -78,7 +78,7 @@ for i in range(nreps):
                   epochs=1, verbose=0, validation_data=(xtest, ytest))
         pred = model.predict(xtest)
         rmse = np.mean([(iii-jjj)**2 for iii,jjj in zip(ytest, pred)])**0.5
-        print( i,j, rmse)
+        print(( i,j, rmse))
         f.append(rmse)
     all_out['not_transposed'].append(f)
     pprint( all_out )
@@ -107,7 +107,7 @@ for i in range(nreps):
                   epochs=1, verbose=0, validation_data=(xtest, ytest))
         pred = model.predict(xtest)
         rmse = np.mean([(iii-jjj)**2 for iii,jjj in zip(ytest, pred)])**0.5
-        print( i,j, rmse)
+        print(( i,j, rmse))
         f.append(rmse)
     all_out['binary'].append(f)
     pprint( all_out )
@@ -136,7 +136,7 @@ for i in range(nreps):
                   epochs=1, verbose=0, validation_data=(mtest, ytest))
         pred = model.predict(mtest)
         rmse = np.mean([(iii-jjj)**2 for iii,jjj in zip(ytest, pred)])**0.5
-        print( i,j, rmse)
+        print(( i,j, rmse))
         f.append(rmse)
     all_out['neg1_1'].append(f)
     pprint( all_out )
@@ -166,7 +166,7 @@ for i in range(nreps):
                   epochs=1, verbose=0, validation_data=(rtest, ytest))
         pred = model.predict(rtest)
         rmse = np.mean([(iii-jjj)**2 for iii,jjj in zip(ytest, pred)])**0.5
-        print( i,j, rmse)
+        print(( i,j, rmse))
         f.append(rmse)
     all_out['resort'].append(f)
     pprint( all_out )
@@ -196,7 +196,7 @@ for i in range(nreps):
                   epochs=1, verbose=0, validation_data=(rtest, ytest))
         pred = model.predict(rtest)
         rmse = np.mean([(iii-jjj)**2 for iii,jjj in zip(ytest, pred)])**0.5
-        print( i,j, rmse)
+        print(( i,j, rmse))
         f.append(rmse)
     all_out['resort_and_neg1_1'].append(f)
     pprint( all_out )
@@ -209,7 +209,7 @@ for i,color in zip(['not_transposed', 'binary', 'neg1_1', 'resort', 'resort_and_
     #for j in all_out[i]:
         #plt.plot(range(11), j, color=color, alpha=.05)
         #plt.scatter(range(11), j, color=color, alpha=.3)
-    plt.plot(range(11), rmean(all_out[i]), color=color)
+    plt.plot(list(range(11)), rmean(all_out[i]), color=color)
 
 from pickle import dump
 dump(all_out, open('all.fitted.nets.pickle', 'w'))

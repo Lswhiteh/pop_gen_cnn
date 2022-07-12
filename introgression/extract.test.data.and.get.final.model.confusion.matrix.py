@@ -31,7 +31,7 @@ def load_data(xfile, max_len):
         q = q.astype("int8")
         f.append(np.array(q).T)
         #print(q.shape)
-        if not len(f) % 100: print len(f)
+        if not len(f) % 100: print(len(f))
     return f
 
 def max_len_only(xfile):
@@ -47,7 +47,7 @@ def max_len_only(xfile):
     return ml
 
 max_len = max([max_len_only('mig12.test.msOut.gz'), max_len_only('mig21.test.msOut.gz'), max_len_only('noMig.test.msOut.gz'), 1201]) #1201
-print max_len
+print(max_len)
 
 mig = []
 y = []
@@ -55,10 +55,10 @@ y = []
 for i,j in zip(('mig12.test.msOut.gz', 'mig21.test.msOut.gz', 'noMig.test.msOut.gz'), (1, 2, 0)):
     l = load_data(i, max_len)
     mig.extend(l)
-    y.extend([j for iii in xrange(len(l))])
+    y.extend([j for iii in range(len(l))])
 x = np.array(mig)
 
-print len(x), len(y)
+print(len(x), len(y))
 
 
 from keras.models import load_model
@@ -67,9 +67,9 @@ from sklearn.metrics import confusion_matrix
 model = load_model('big.data.89.2.acc.mod')
 pred = model.predict(x)
 pred_cat = [i.argmax() for i in pred]
-print confusion_matrix(y, pred_cat)
-print
-print confusion_matrix(y, pred_cat) / float(len(y))
+print(confusion_matrix(y, pred_cat))
+print()
+print(confusion_matrix(y, pred_cat) / float(len(y)))
 
 k = []
 for idx,i in enumerate(pred):
@@ -97,4 +97,4 @@ for i,o in n:
             d[(j1,j2)][o]+=1
 
 for i in sorted(d):
-    if sum(d[i]): print i,'\t', d[i][1] / sum(d[i]), '\t', sum(d[i])
+    if sum(d[i]): print(i,'\t', d[i][1] / sum(d[i]), '\t', sum(d[i]))

@@ -2,6 +2,7 @@ from string import maketrans
 import operator
 import random
 from collections import defaultdict
+from functools import reduce
 
 ###Stats and math functions
 def weighted_sampler(pop_dict):
@@ -27,14 +28,14 @@ def choose(n,k):
     '''implements binomial coefficient function
        see: https://en.wikipedia.org/wiki/Binomial_coefficient 
        performance not tested on really large values'''
-    return reduce(lambda a,b: a*(n-b)/(b+1),xrange(k),1)
+    return reduce(lambda a,b: a*(n-b)/(b+1),range(k),1)
 
 def sampler(pop, size, replacement=False):
     '''a quick re-implementation of the python random sampler that
        allows for sampling with or without replacement (pythons builtin only
        allows without replacement)'''
     if replacement:
-        return [random.choice(pop) for i in xrange(size)]
+        return [random.choice(pop) for i in range(size)]
     else:
         return random.sample(pop, size)          
 
@@ -46,7 +47,7 @@ def rank(x):
         out[idx] = i
         idx+=1
     p1 =  (j[0] for j in sorted(sort_dict_by_val(out), key=lambda s: s[1]))
-    p2 = range(len(x))
+    p2 = list(range(len(x)))
     idx=0
     for i in p1:
         p2[i] = idx
@@ -116,7 +117,7 @@ def intersection(sets):
     if all((type(i)==type(set()) for i in sets)):
         return reduce(set.intersection, sets)
     else:
-        sets = map(set, sets)
+        sets = list(map(set, sets))
         return reduce(set.intersection, sets)
 
 def union(sets):
@@ -124,7 +125,7 @@ def union(sets):
     if all((type(i)==type(set()) for i in sets)):
         return reduce(set.union, sets)
     else:
-        sets = map(set, sets)
+        sets = list(map(set, sets))
         return reduce(set.union, sets)
 
 def join(seqs):
@@ -144,7 +145,7 @@ def get_file(filename, splitchar = 'NA', buffered = False):
 
 def sort_dict_by_val(aDict):
     '''returns a list of tuples sorted by the dict values'''
-    return sorted(aDict.iteritems(), key=lambda (k,v): (v,k))
+    return sorted(iter(aDict.items()), key=lambda k_v: (k_v[1],k_v[0]))
 
 def pairwise(li):  
     '''a convienience function that produces all pairwise comparisons from a list'''
@@ -182,7 +183,7 @@ def count_all(xlist, proportions=False):
 def product(*args, **kwds):
     ''' product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
         product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111'''
-    pools = map(tuple, args) * kwds.get('repeat', 1)
+    pools = list(map(tuple, args)) * kwds.get('repeat', 1)
     result = [[]]
     for pool in pools:
         result = [x+[y] for x in result for y in pool]
@@ -195,7 +196,7 @@ def permutations(iterable, r=None):
     pool = tuple(iterable)
     n = len(pool)
     r = n if r is None else r
-    for indices in product(range(n), repeat=r):
+    for indices in product(list(range(n)), repeat=r):
         if len(set(indices)) == r:
             yield tuple(pool[i] for i in indices)
 
@@ -204,7 +205,7 @@ def combinations(iterable, r):
         combinations(range(4), 3) --> 012 013 023 123 '''
     pool = tuple(iterable)
     n = len(pool)
-    for indices in permutations(range(n), r):
+    for indices in permutations(list(range(n)), r):
         if sorted(indices) == list(indices):
             yield tuple(pool[i] for i in indices)
 
@@ -212,6 +213,6 @@ def combinations_with_replacement(iterable, r):
     '''combinations_with_replacement('ABC', 2) --> AA AB AC BB BC CC'''
     pool = tuple(iterable)
     n = len(pool)
-    for indices in product(range(n), repeat=r):
+    for indices in product(list(range(n)), repeat=r):
         if sorted(indices) == list(indices):
             yield tuple(pool[i] for i in indices)

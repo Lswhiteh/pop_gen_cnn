@@ -31,7 +31,7 @@ def load_data(xfile, max_len):
         q = q.astype("int8")
         f.append(np.array(q).T)
         #print(q.shape)
-        if not len(f) % 100: print len(f)
+        if not len(f) % 100: print(len(f))
     return f
 
 def max_len_only(xfile):
@@ -55,15 +55,15 @@ big_mig.extend(load_data('trainingSims/mig12.msOut.gz', max_len))
 big_mig.extend(load_data('trainingSims/mig21.msOut.gz', max_len))
 x = np.array(big_mig)
 del(big_mig)
-y = [0 for i in xrange(100000)]
-y.extend([2 for i in xrange(100000)])
-y.extend([0 for i in xrange(10000)])
-y.extend([1 for i in xrange(10000)])
-y.extend([2 for i in xrange(10000)])
+y = [0 for i in range(100000)]
+y.extend([2 for i in range(100000)])
+y.extend([0 for i in range(10000)])
+y.extend([1 for i in range(10000)])
+y.extend([2 for i in range(10000)])
 y = np.array(y)
 
-print len(x), len(y)
-shf = range(len(x))
+print(len(x), len(y))
+shf = list(range(len(x)))
 shuffle(shf)
 
 y = y[shf]

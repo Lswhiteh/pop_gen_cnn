@@ -97,12 +97,12 @@ y = (y-yMeans)/yStds
 testy = (testy-yMeans)/yStds
 valy = (valy-yMeans)/yStds
 
-print(len(X), len(y), len(yMeans))
-print(yMeans, yStds)
-print(X.shape, testX.shape, valX.shape)
-print(posX.shape, testPosX.shape, valPosX.shape)
-print(y.shape, valy.shape)
-print("ready to learn (%d params, %d training examples, %d rows, %d cols)" %(numParams, len(X), imgRows, imgCols))
+print((len(X), len(y), len(yMeans)))
+print((yMeans, yStds))
+print((X.shape, testX.shape, valX.shape))
+print((posX.shape, testPosX.shape, valPosX.shape))
+print((y.shape, valy.shape))
+print(("ready to learn (%d params, %d training examples, %d rows, %d cols)" %(numParams, len(X), imgRows, imgCols)))
 
 if convDim == "2d":
     inputShape = (imgRows, imgCols, 1)
@@ -143,7 +143,7 @@ if useDropout:
     denseMerged = Dropout(0.25)(denseMerged)
 denseOutput = Dense(numParams)(denseMerged)
 model = Model(inputs=[b1, b2], outputs=denseOutput)
-print(model.summary())
+print((model.summary()))
 
 model.compile(loss='mean_squared_error', optimizer='adam')
 earlystop = keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=3, verbose=0, mode='auto')

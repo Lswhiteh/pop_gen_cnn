@@ -23,7 +23,7 @@ def load_data(xfile, maxlen = 5000, hard_stop = 1e60):
     all_pos = []
     for idx, i in enumerate(k):
         l = g[i+3:i+211]
-        pos = np.array(map(float, g[i+2][1:]), dtype="float32")
+        pos = np.array(list(map(float, g[i+2][1:])), dtype="float32")
         #print l[0][:10], l[-1][:10]
         #print len(l)
         q = []
@@ -38,11 +38,11 @@ def load_data(xfile, maxlen = 5000, hard_stop = 1e60):
         #    print q.shape
             all_pos.append(pos)
         if len(f) > 9:
-            if not len(f) % 10: print idx, len(f), len(all_pos)
+            if not len(f) % 10: print(idx, len(f), len(all_pos))
         lens.append(len(q[0]))
         if len(f) >= hard_stop: break
-    print len([i for i in lens if i > maxlen]), len(lens)
-    print '*********', len(f), len(all_pos)
+    print(len([i for i in lens if i > maxlen]), len(lens))
+    print('*********', len(f), len(all_pos))
     return f, all_pos
 
 
@@ -80,7 +80,7 @@ xfiles = {}
 for i in rawxfiles:
     xfiles[testpath+i] = rawxfiles[i]
     xfiles[trainpath+i] = rawxfiles[i]
-print xfiles
+print(xfiles)
 
 
 extra_data = '''psmcHard_0.batch_0.msOut.gz   psmcHard_7.batch_2.msOut.gz   psmcSoft_4.batch_0.msOut.gz   psmcSoft_5.batch_33.msOut.gz
@@ -146,13 +146,13 @@ psmcNeut.batch_16.msOut.gz  psmcNeut.batch_23.msOut.gz  psmcNeut.batch_30.msOut.
 for i in more_neut:
     xfiles[i] = 0
 
-print '****************'
-print xfiles
+print('****************')
+print(xfiles)
 
-print len(xfiles)
+print(len(xfiles))
 
 def proc_one_file(i, xfiles=xfiles):
-    print i
+    print(i)
     code = xfiles[i]
     xdata,posdata = load_data(i)
     ydata = [code for i in range(len(xdata))]
@@ -161,7 +161,7 @@ def proc_one_file(i, xfiles=xfiles):
 if __name__ == '__main__':
     x,y,pos = [],[],[]
     P = multiprocessing.Pool(NCPU) #multicore initialized to NCPUs
-    for xdata, posdata, ydata in P.imap(proc_one_file, xfiles.keys()):
+    for xdata, posdata, ydata in P.imap(proc_one_file, list(xfiles.keys())):
         x.extend(xdata)
         pos.extend(posdata)
         y.extend(ydata)
@@ -170,9 +170,9 @@ if __name__ == '__main__':
     y = np.array(y)
     all_pos = np.array(pos)
  
-    print len(x), len(y), len(all_pos)
+    print(len(x), len(y), len(all_pos))
  
-    shf = range(len(x))
+    shf = list(range(len(x)))
     shuffle(shf)
 
     x = x[shf]

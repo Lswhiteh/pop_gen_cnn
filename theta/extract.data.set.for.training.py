@@ -33,11 +33,11 @@ def load_data(xfile, max_len):
         q = q.astype("int8")
         f.append(np.array(q).T)
         #print(q.shape)
-        if not len(f) % 100: print len(f)
+        if not len(f) % 100: print(len(f))
     return f
 
 max_len = max([int(i.strip().split()[1]) for i in gzip.open('theta.sims.txt.gz') if 'seg' in i])
-print max_len
+print(max_len)
 x = load_data('theta.sims.txt.gz', max_len)
 y = json.load(open('true.thetas.json'))
 
